@@ -2,17 +2,21 @@ using ServiceContracts;
 using Services;
 using Microsoft.EntityFrameworkCore;
 using Entities;
-using static System.Net.Mime.MediaTypeNames;
-using System;
+using RepositoryContracts;
+using Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Add services into IoC container
-builder.Services.AddSingleton<ICountriesServices, CountriesService>();
-builder.Services.AddSingleton<IPersonService, PersonService>();
 
-builder.Services.AddDbContext<PersonsDbContext>(options =>
+builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
+builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
+
+builder.Services.AddScoped<ICountriesServices, CountriesService>();
+builder.Services.AddScoped<IPersonService, PersonService>();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });

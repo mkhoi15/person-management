@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230905142753_Initial")]
-    partial class Initial
+    [Migration("20230907142623_UpdateCHK_TIN")]
+    partial class UpdateCHK_TIN
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,9 +94,18 @@ namespace Entities.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
+                    b.Property<string>("TIN")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(8)")
+                        .HasDefaultValue("12345678")
+                        .HasColumnName("TaxIdentificationNumber");
+
                     b.HasKey("PersonID");
 
-                    b.ToTable("Persons", (string)null);
+                    b.ToTable("Persons", null, t =>
+                        {
+                            t.HasCheckConstraint("CHK_TIN", "len([TaxIdentificationNumber]) = 8");
+                        });
 
                     b.HasData(
                         new

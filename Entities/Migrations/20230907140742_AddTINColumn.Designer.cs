@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230905142753_Initial")]
-    partial class Initial
+    [Migration("20230907140742_AddTINColumn")]
+    partial class AddTINColumn
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,6 +93,9 @@ namespace Entities.Migrations
                     b.Property<string>("PersonName")
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("TIN")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PersonID");
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using ServiceContracts.DTO;
 using ServiceContracts.Enums;
+using System.Threading.Tasks;
 
 namespace ServiceContracts
 {
@@ -9,19 +10,21 @@ namespace ServiceContracts
 		/// <summary>
 		/// Adds a new person into person into list of person
 		/// </summary>
-		/// <param name="request"></param>
-		/// <returns></returns>
-		PersonResponse AddPPerson(PersonAddRequest? request);
+		/// <param name="request">Person object to add</param>
+		/// <returns>A person object after added as personResponse object</returns>
+		/// <exception cref="ArgumentNullException"></exception>
+		/// <exception cref="AggregateException"></exception>
+		Task<PersonResponse> AddPerson(PersonAddRequest? request);
 
 		/// <summary>
 		/// Return all persons
 		/// </summary>
 		/// <returns></returns>
-		List<PersonResponse> GetAllPersons();
+		Task<List<PersonResponse>> GetAllPersons();
 
-		PersonResponse? GetPersonByID(Guid? personID);
+		Task<PersonResponse?> GetPersonByID(Guid? personID);
 
-		List<PersonResponse> GetFilteredPersons(string searchBy, string? searchString);
+		Task<List<PersonResponse>> GetFilteredPersons(string searchBy, string? searchString);
 
 		/// <summary>
 		/// Returns sorted lisy of persons
@@ -30,14 +33,14 @@ namespace ServiceContracts
 		/// <param name="sortBy"></param>
 		/// <param name="sortOr"></param>
 		/// <returns></returns>
-		List<PersonResponse> GetSortedPersons(List<PersonResponse> allPersons, string sortBy, SortOrderOptions sortOr);
+		Task<List<PersonResponse>> GetSortedPersons(List<PersonResponse> allPersons, string sortBy, SortOrderOptions sortOr);
 
 		/// <summary>
 		/// Updates the specified person details based on the given person ID
 		/// </summary>
 		/// <param name="personUpdateRequest">Person details to update, including person id</param>
 		/// <returns>Returns the person response object after updation</returns>
-		PersonResponse UpdatePerson(PersonUpdateRequest? personUpdateRequest);
+		Task<PersonResponse> UpdatePerson(PersonUpdateRequest? personUpdateRequest);
 
 
 		/// <summary>
@@ -45,6 +48,6 @@ namespace ServiceContracts
 		/// </summary>
 		/// <param name="PersonID">PersonID to delete</param>
 		/// <returns>Returns true, if the deletion is successful; otherwise false</returns>
-		bool DeletePerson(Guid? personID);
+		Task<bool> DeletePerson(Guid? personID);
 	}
 }
